@@ -1,0 +1,67 @@
+# Side Quests
+
+Generador y catálogo de **quests**: cosas que hacer al menos una vez en la vida (`big`) y cosas que hacer hoy en vez de mirar el móvil (`micro`). Web first como PWA; después app iOS nativa (SwiftUI) con el mismo modelo de datos.
+
+Repo propio: `kikelop/side-quests`. Vive en `~/workspace/personal/side-quests/` pero **no forma parte** de `kikelop/workspace` — commits y pushes van aquí.
+
+## Cómo funciona el producto
+
+- **Today** (`/`): una quest al azar en una card a sangre del color de su categoría. Tres acciones: *Skip* (la descarta 14 días), *Save for later* (va a My list), *Done*. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Once in a life.
+- **Explore** (`/explore`): catálogo con búsqueda, chips de categoría, sheet de filtros (escala, duración, coste, dónde, con quién) y pestañas All / To do / Done. Acepta `?status=done`.
+- **My list** (`/list`): Saved y Done (por fecha desc). Deshacer done desde ahí.
+- Todo el estado del usuario es **local** (`localStorage`, clave `side-quests:v1`). Sin cuentas, sin backend, sin IA.
+
+## Stack
+
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind 4 · Vitest + jsdom. Fuentes: Inter (texto) + Bricolage Grotesque (display) vía `next/font`. Sin librerías de estado ni animación: Context + `useReducer`, transiciones CSS.
+
+## Estructura
+
+```
+src/
+├── app/            layout (fonts, provider, TabBar, SW) · page (Today) · explore/ · list/ · globals.css (tokens)
+├── components/     TodayView · ExploreView · MyListView · QuestCard · QuestRow · FilterBar · FilterSheet
+│                   ScaleToggle · QuestMeta · TabBar · Toasts · EmptyState
+├── lib/
+│   ├── types.ts          contrato de datos (Quest, UserState, enums). Portable 1:1 a Swift Codable
+│   ├── quests.ts         QUESTS / QUEST_BY_ID + labels de UI
+│   ├── theme.ts          color por categoría (bg, fg, tint)
+│   ├── draw.ts           sorteo: pool elegible + moneda entre escalas + fallback
+│   ├── reducer.ts        acciones sobre UserState (pin diario, skip, save, done…)
+│   ├── QuestsProvider.tsx  Context: hidrata desde localStorage, persiste tras hidratar
+│   ├── persistence.ts    load/save + sanitize (ids muertos, fechas malas, TTL de dismissed)
+│   ├── filters.ts        applyFilters puro para Explore
+│   ├── dates.ts          ISO local, daysBetween, computeStreak
+│   ├── validate.ts       reglas de contenido (usadas por el test del catálogo)
+│   └── feedback.ts       toast() + buzz()
+└── data/
+    ├── quests.micro.json   ~140 quests hacibles hoy (≥70 % gratis)
+    ├── quests.big.json     ~100 quests once-in-a-lifetime (≤30 % caras)
+    └── quests.test.ts      validación del catálogo
+public/               manifest.json · sw.js · icon-192/512 · apple-touch-icon
+```
+
+## Reglas del contenido (`src/data/*.json`)
+
+- `id` = `${scale}-${slug}` en kebab-case. **Inmutable**: el estado del usuario lo referencia. Para quitar una quest → `"retired": true`, nunca borrar.
+- `title` imperativo, ≤48 caracteres, sin punto final ni emoji. `description` 1–2 frases, 40–180 caracteres, con el porqué o un cómo concreto.
+- Prohibido: vocabulario de anuncio de bienestar (`journey`, `manifest`, `unleash`, `vibes`…), marcas, nada peligroso o ilegal, nada que implique pantalla.
+- `micro` = hacible hoy en ≤2 h sin planificar (nunca `multi-day`). `big` = requiere planificar, viajar o meses.
+- Mínimo 3 quests vivas por celda categoría × escala. `npx vitest run` lo comprueba todo y lista `id: motivo`.
+
+## Decisiones
+
+1. Contenido curado en JSON, sin backend ni IA — el producto es la lista.
+2. Tres tabs (Today · Explore · My list). "Tu listado" es el artefacto central; en iOS un tab es lo natural.
+3. Pin diario en vez de PRNG con seed: sobrevive a los skips y a los cambios de escala.
+4. Dismissed caduca a 14 días; en Today, si el pool se vacía, se ofrece "Bring them back".
+5. El provider **ignora acciones antes de hidratar** para que el estado vacío inicial nunca pise localStorage.
+6. Diseño propio, no heredado de otros proyectos: base fría `#eef0f3`, tinta `#15171c`, una card a sangre por categoría (`lib/theme.ts`), tab bar flotante en píldora, Bricolage Grotesque en titulares.
+
+## Trabajar aquí
+
+- `npm run dev` · `npx vitest run` · `npx next build` (siempre antes de commit) · `npx eslint`.
+- Móvil por LAN: `npx next dev -H 0.0.0.0` y abrir `http://<ip>:3000`. SW e instalación a home screen exigen HTTPS → probar en la URL de Vercel.
+- Código, commits y UI en inglés; docs en español.
+- **Deploy**: pendiente decidir cuenta de Vercel (el team personal está en soft-block por fair-use; alternativa `lazyyuppie` con token). Cuando exista: `npx vercel --prod --yes`.
+- **iOS** (después): congelar la web como feature-complete antes de empezar; portar `types.ts` → `Quest.swift`, `reducer.ts` → `QuestStore` (`@Observable`, JSON en Application Support), los dos JSON al bundle tal cual.
