@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { COMPANY_LABEL, COST_LABEL, DURATION_LABEL, SETTING_LABEL } from "@/lib/quests";
+import { COMPANY_LABEL, COST_LABEL, DURATION_LABEL, SCALE_LABEL, SETTING_LABEL } from "@/lib/quests";
 import { COMPANIES, COSTS, DURATIONS, SETTINGS } from "@/lib/types";
 import { DEFAULT_FILTERS, type Filters } from "@/lib/filters";
 
@@ -53,7 +53,7 @@ export default function FilterSheet({
         <Group label="Scale">
           {(["any", "micro", "big"] as const).map((s) => (
             <Chip key={s} active={filters.scale === s} onClick={() => onChange({ ...filters, scale: s })}>
-              {s === "any" ? "Any" : s === "micro" ? "Today" : "Once in a life"}
+              {s === "any" ? "Any" : SCALE_LABEL[s]}
             </Chip>
           ))}
         </Group>

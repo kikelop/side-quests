@@ -52,12 +52,21 @@ describe("reducer", () => {
     expect(s.today?.id).not.toBe("micro-a");
   });
 
+  it("finishing the pinned quest redraws the card immediately", () => {
+    let s = reduce(EMPTY_STATE, { type: "ensureToday", ctx });
+    expect(s.today?.id).toBe("micro-a");
+    s = reduce(s, { type: "markDone", id: "micro-a", date: TODAY });
+    expect(s.today?.id).toBe("micro-b");
+    // Finishing a quest that is not on the card leaves the card alone.
+    s = reduce(s, { type: "markDone", id: "big-c", date: TODAY });
+    expect(s.today?.id).toBe("micro-b");
+  });
+
   it("saving the pinned quest moves the card on", () => {
     let s = reduce(EMPTY_STATE, { type: "ensureToday", ctx });
-    s = reduce(s, { type: "toggleSaved", id: "micro-a" });
-    s = reduce(s, { type: "ensureToday", ctx });
+    s = reduce(s, { type: "toggleSaved", id: "micro-a", date: TODAY });
     expect(s.saved).toEqual(["micro-a"]);
-    expect(s.today?.id).not.toBe("micro-a");
+    expect(s.today?.id).toBe("micro-b");
   });
 
   it("changing scale redraws only if the pinned quest no longer fits", () => {

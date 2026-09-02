@@ -1,7 +1,7 @@
 "use client";
 
 import QuestMeta from "./QuestMeta";
-import { CATEGORY_LABEL } from "@/lib/quests";
+import { CATEGORY_LABEL, SCALE_LABEL } from "@/lib/quests";
 import { CATEGORY_THEME } from "@/lib/theme";
 import type { Quest } from "@/lib/types";
 
@@ -29,7 +29,7 @@ export default function QuestRow({ quest, saved, doneDate, onToggleSaved, onDone
       <div className="min-w-0 flex-1">
         <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-3">
           {CATEGORY_LABEL[quest.category]}
-          {quest.scale === "big" && " · Once in a life"}
+          {quest.scale === "big" && ` · ${SCALE_LABEL.big}`}
           {isDone && ` · Done ${formatDate(doneDate!)}`}
         </p>
         <h3 className={`font-display mt-0.5 text-[18px] font-semibold leading-tight ${isDone ? "text-ink-2 line-through decoration-ink/30" : ""}`}>

@@ -42,7 +42,7 @@ export default function TodayView() {
     if (!quest) return;
     buzz();
     toast("Added to your list");
-    transition(() => dispatch({ type: "toggleSaved", id: quest.id }));
+    transition(() => dispatch({ type: "toggleSaved", id: quest.id, date: today }));
   };
   const done = () => {
     if (!quest) return;
@@ -56,8 +56,8 @@ export default function TodayView() {
     <main className="px-5 pt-6">
       <header className="mb-5 flex items-end justify-between">
         <div>
-          <p className="text-[13px] font-medium text-ink-2">
-            {new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
+          <p className="h-5 text-[13px] font-medium text-ink-2">
+            {hydrated && new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
           </p>
           <h1 className="font-display text-[28px] font-semibold leading-none">Today&apos;s quest</h1>
         </div>

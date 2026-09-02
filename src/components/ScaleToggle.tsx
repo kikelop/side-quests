@@ -5,7 +5,7 @@ import type { TodayScale } from "@/lib/types";
 const OPTIONS: { value: TodayScale; label: string }[] = [
   { value: "any", label: "Any" },
   { value: "micro", label: "Today" },
-  { value: "big", label: "Once in a life" },
+  { value: "big", label: "Lifetime" },
 ];
 
 export default function ScaleToggle({ value, onChange }: { value: TodayScale; onChange: (v: TodayScale) => void }) {

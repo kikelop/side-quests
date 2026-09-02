@@ -4,7 +4,7 @@ import type { Quest, TodayScale, UserState } from "./types";
 
 export type Action =
   | { type: "hydrate"; state: UserState }
-  | { type: "toggleSaved"; id: string }
+  | { type: "toggleSaved"; id: string; date: string }
   | { type: "markDone"; id: string; date: string }
   | { type: "undoDone"; id: string }
   | { type: "removeSaved"; id: string }
@@ -41,6 +41,12 @@ function ensureToday(quests: Quest[], byId: Map<string, Quest>, state: UserState
   return pin(state, drawQuest(quests, state, scale, ctx), ctx.today);
 }
 
+/** Saving or finishing the card on screen should move the card on. */
+function redrawIfPinned(quests: Quest[], state: UserState, id: string, today: string): UserState {
+  if (state.today?.id !== id) return state;
+  return pin(state, drawQuest(quests, state, state.prefs.todayScale, { today }, id), today);
+}
+
 export function createReducer(quests: Quest[]) {
   const byId = new Map(quests.map((q) => [q.id, q]));
 
@@ -53,7 +59,7 @@ export function createReducer(quests: Quest[]) {
         const saved = state.saved.includes(action.id)
           ? state.saved.filter((id) => id !== action.id)
           : [...state.saved, action.id];
-        return { ...state, saved, dismissed: withoutId(state.dismissed, action.id) };
+        return redrawIfPinned(quests, { ...state, saved, dismissed: withoutId(state.dismissed, action.id) }, action.id, action.date);
       }
 
       case "removeSaved":
@@ -61,12 +67,17 @@ export function createReducer(quests: Quest[]) {
 
       case "markDone": {
         if (state.done.some((d) => d.id === action.id)) return state;
-        return {
-          ...state,
-          done: [...state.done, { id: action.id, date: action.date }],
-          saved: state.saved.filter((id) => id !== action.id),
-          dismissed: withoutId(state.dismissed, action.id),
-        };
+        return redrawIfPinned(
+          quests,
+          {
+            ...state,
+            done: [...state.done, { id: action.id, date: action.date }],
+            saved: state.saved.filter((id) => id !== action.id),
+            dismissed: withoutId(state.dismissed, action.id),
+          },
+          action.id,
+          action.date,
+        );
       }
 
       case "undoDone":
