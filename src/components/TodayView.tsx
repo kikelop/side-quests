@@ -10,7 +10,6 @@ import { computeStreak, todayISO } from "@/lib/dates";
 import { buzz, toast } from "@/lib/feedback";
 import { QUEST_BY_ID } from "@/lib/quests";
 import { useQuests } from "@/lib/QuestsProvider";
-import { SCALE_THEME } from "@/lib/theme";
 import type { TodayScale } from "@/lib/types";
 
 const LABELS: Record<SwipeDirection, string> = { left: "Skip", right: "I'm in", up: "Saved" };
@@ -47,7 +46,6 @@ export default function TodayView() {
   };
 
   const setScale = (scale: TodayScale) => dispatch({ type: "setTodayScale", scale, ctx: { today } });
-  const behind = quest ? SCALE_THEME[quest.scale === "micro" ? "big" : "micro"] : null;
 
   return (
     <main className="px-5 pt-6">
@@ -76,17 +74,9 @@ export default function TodayView() {
         <div className="animate-pulse rounded-[var(--radius-card)] bg-ink/6" style={{ minHeight: "min(58dvh, 520px)" }} />
       ) : quest ? (
         <>
-          <div className="relative">
-            {/* The next card peeking out behind gives the stack its depth. */}
-            <div
-              aria-hidden
-              className="absolute inset-x-3 -bottom-2 top-2 rounded-[var(--radius-card)] opacity-60"
-              style={{ background: behind?.bg }}
-            />
-            <SwipeCard key={quest.id} labels={LABELS} onSwipe={onSwipe} flyOut={flyOut}>
-              <QuestCard quest={quest} />
-            </SwipeCard>
-          </div>
+          <SwipeCard key={quest.id} labels={LABELS} onSwipe={onSwipe} flyOut={flyOut}>
+            <QuestCard quest={quest} />
+          </SwipeCard>
           <div className="mt-5 grid grid-cols-[auto_1fr_1fr] gap-2">
             <button
               onClick={() => setFlyOut("left")}
