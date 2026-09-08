@@ -12,8 +12,8 @@ import type { Quest } from "@/lib/types";
 
 type Tab = "active" | "saved" | "done";
 const TABS: { value: Tab; label: string }[] = [
-  { value: "active", label: "In progress" },
-  { value: "saved", label: "Saved" },
+  { value: "active", label: "Next up" },
+  { value: "saved", label: "Someday" },
   { value: "done", label: "Done" },
 ];
 
@@ -42,9 +42,9 @@ export default function MyListView() {
   return (
     <main className="px-5 pt-6">
       <header className="mb-4">
-        <h1 className="font-display text-[24px] font-semibold leading-none">My list</h1>
+        <h1 className="font-display text-[24px] font-semibold leading-none">My quests</h1>
         <p className="mt-1 text-[13px] font-medium text-ink-2">
-          {state.active.length} in progress · {state.saved.length} saved · {state.done.length} done
+          {state.active.length} next up · {state.saved.length} someday · {state.done.length} done
         </p>
       </header>
 
@@ -67,7 +67,7 @@ export default function MyListView() {
       {!hydrated ? null : tab === "active" ? (
         active.length === 0 ? (
           <div className="mt-4">
-            <EmptyState title="Nothing in progress" body="Swipe right on a quest, or tap I'm in, and it lands here until you finish it." />
+            <EmptyState title="Nothing next up" body="Swipe right on a quest, or tap I'm in, and it waits here until you finish it." />
           </div>
         ) : (
           <ul className="mt-4 space-y-2">
@@ -90,7 +90,7 @@ export default function MyListView() {
       ) : tab === "saved" ? (
         saved.length === 0 ? (
           <div className="mt-4">
-            <EmptyState title="Nothing saved yet" body="Save a quest from Today or Explore and it will wait for you here." />
+            <EmptyState title="Nothing for someday yet" body="Swipe up on a quest you like but can't do now, and it lands here." />
             <p className="mt-4 text-center text-[14px]">
               <Link href="/explore" className="font-medium text-ink underline underline-offset-4">
                 Browse all quests
@@ -105,7 +105,7 @@ export default function MyListView() {
                 quest={q}
                 saved
                 onToggleSaved={() => {
-                  toast("Removed from your list");
+                  toast("Removed from Someday");
                   dispatch({ type: "removeSaved", id: q.id });
                 }}
                 onDone={() => markDone(q.id)}

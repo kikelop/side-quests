@@ -33,7 +33,7 @@ export default function QuestRow({ quest, saved, active = false, doneDate, onTog
           {CATEGORY_LABEL[quest.category]}
           {quest.scale === "big" && ` · ${SCALE_LABEL.big}`}
           {isDone && ` · Done ${formatDate(doneDate!)}`}
-          {active && !isDone && " · In progress"}
+          {active && !isDone && " · Next up"}
         </p>
         <h3 className={`font-display mt-0.5 text-[15px] font-semibold leading-snug ${isDone ? "text-ink-2 line-through decoration-ink/30" : ""}`}>
           <Link href={`/quest/${quest.id}`} className="hover:underline underline-offset-4">
@@ -51,13 +51,13 @@ export default function QuestRow({ quest, saved, active = false, doneDate, onTog
             ) : (
               <>
                 <IconButton
-                  label={active ? "Drop it" : saved ? "Remove from list" : "Save to list"}
+                  label={active ? "Drop it" : saved ? "Remove from Someday" : "Someday"}
                   onClick={onToggleSaved}
                   active={saved || active}
                 >
                   {active ? <DropIcon /> : <BookmarkIcon filled={saved} />}
                 </IconButton>
-                <IconButton label="Mark done" onClick={onDone}>
+                <IconButton label="Already done it" onClick={onDone}>
                   <CheckIcon />
                 </IconButton>
               </>

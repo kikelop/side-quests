@@ -6,10 +6,10 @@ Repo propio: `kikelop/side-quests`. Vive en `~/workspace/personal/side-quests/` 
 
 ## Cómo funciona el producto
 
-- **Today** (`/`): una quest al azar en una card a sangre del color de su escala (ámbar hoy / cacao lifetime). **Gestos tipo Tinder** (`SwipeCard`): izquierda = *Skip* (descarta 14 días), derecha = *I'm in* (acepta → pasa a *In progress* y abre el detalle), arriba = *Save for later*. Los tres botones hacen lo mismo con la misma animación. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Lifetime.
-- **Detalle** (`/quest/[id]`, prerender estático de las 240): card + acciones según estado — sin tocar: *Save* / *I'm in*; en curso: *Drop it* / *Mark as done*; hecha: fecha + *Undo*. **Done ya no está en Today**: completar pasa por el detalle o por las filas de Explore / My list.
+- **Today** (`/`): una quest al azar en una card a sangre del color de su escala (ámbar hoy / cacao lifetime). **Gestos tipo Tinder** (`SwipeCard`): izquierda = *Skip* (descarta 14 días), derecha = *I'm in* (acepta → pasa a *Next up* y abre el detalle), arriba = *Someday*. Los tres botones hacen lo mismo con la misma animación. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Lifetime.
+- **Detalle** (`/quest/[id]`, prerender estático de las 240): card + acciones según estado — sin tocar: *Someday* / *I'm in* / *Already done it*; en Next up: *Drop it* / *Mark as done*; hecha: fecha + *Undo*. **Done ya no está en Today**: completar pasa por el detalle o por las filas de Explore / My list.
 - **Explore** (`/explore`): catálogo con búsqueda, chips de categoría, sheet de filtros (escala, duración, coste, dónde, con quién) y pestañas All / To do / Done. Acepta `?status=done`.
-- **My list** (`/list`): In progress · Saved · Done (por fecha desc). Deshacer done desde ahí.
+- **My quests** (`/list`): **Next up** (`state.active`, aceptadas) · **Someday** (`state.saved`, bucket list) · **Done** (por fecha desc). Vocabulario: la distinción entre los dos "síes" es *cuándo*, no cuánto gusta; no hay "like" sobre quests (el like pertenece a la futura capa social, sobre completados de otros). Listas personalizadas dentro de Someday: después, si hace falta.
 - Todo el estado del usuario es **local** (`localStorage`, clave `side-quests:v1`). Sin cuentas, sin backend, sin IA.
 
 ## Stack
@@ -53,12 +53,12 @@ public/               manifest.json · sw.js · icon-192/512 · apple-touch-icon
 ## Decisiones
 
 1. Contenido curado en JSON, sin backend ni IA — el producto es la lista.
-2. Tres tabs (Today · Explore · My list). "Tu listado" es el artefacto central; en iOS un tab es lo natural.
+2. Tres tabs (Today · Explore · My quests). "Tu listado" es el artefacto central; en iOS un tab es lo natural.
 3. Pin diario en vez de PRNG con seed: sobrevive a los skips y a los cambios de escala.
 4. Dismissed caduca a 14 días; en Today, si el pool se vacía, se ofrece "Bring them back".
 5. El provider **ignora acciones antes de hidratar** para que el estado vacío inicial nunca pise localStorage.
 6. Branding elegido por Kike (2026-09-08, `design/branding-lab-2.html`, cruce T11 × C15 A): Unbounded + Onest, paleta cálida — crema `#fff7ec`, tinta cacao `#3a2a1a`, ámbar `#ffb347`. La card de Today va por **escala** (ámbar = hoy, cacao = una vez en la vida), no por categoría; las categorías son swatches cálidos en Explore. Botón primario = tinta (se descartó el naranja `#ff7a1a`). Los labs de branding viven en `design/`.
-7. Estado **In progress** (`state.active`, 2026-09-08): el swipe a la derecha necesitaba un "sí" que no fuera "ya lo hice". Aceptar saca la quest del sorteo y la deja en My list hasta completarla. Es el gancho para la siguiente pieza: foto + texto al completar (IndexedDB) y share card; red social solo con backend, después de iOS.
+7. Estado **Next up** (`state.active`, 2026-09-08): el swipe a la derecha necesitaba un "sí" que no fuera "ya lo hice". Aceptar saca la quest del sorteo y la deja en My list hasta completarla. Es el gancho para la siguiente pieza: foto + texto al completar (IndexedDB) y share card; red social solo con backend, después de iOS.
 
 ## Trabajar aquí
 

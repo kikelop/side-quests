@@ -7,7 +7,7 @@ import { useQuests } from "@/lib/QuestsProvider";
 const TABS = [
   { href: "/", label: "Today", icon: DiceIcon },
   { href: "/explore", label: "Explore", icon: GridIcon },
-  { href: "/list", label: "My list", icon: BookmarkIcon },
+  { href: "/list", label: "My quests", icon: BookmarkIcon },
 ] as const;
 
 export default function TabBar() {

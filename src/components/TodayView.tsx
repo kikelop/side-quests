@@ -12,7 +12,7 @@ import { QUEST_BY_ID } from "@/lib/quests";
 import { useQuests } from "@/lib/QuestsProvider";
 import type { TodayScale } from "@/lib/types";
 
-const LABELS: Record<SwipeDirection, string> = { left: "Skip", right: "I'm in", up: "Saved" };
+const LABELS: Record<SwipeDirection, string> = { left: "Skip", right: "I'm in", up: "Someday" };
 
 export default function TodayView() {
   const { state, hydrated, dispatch } = useQuests();
@@ -36,7 +36,7 @@ export default function TodayView() {
       dispatch({ type: "skipToday", ctx: { today } });
     } else if (dir === "up") {
       buzz();
-      toast("Saved for later");
+      toast("Added to Someday");
       dispatch({ type: "toggleSaved", id: quest.id, date: today });
     } else {
       buzz(16);
@@ -58,7 +58,7 @@ export default function TodayView() {
         </div>
         <div className="flex gap-1.5">
           {inProgress > 0 && (
-            <span className="rounded-full bg-ink/8 px-3 py-1 text-[13px] font-semibold text-ink-2">{inProgress} in progress</span>
+            <span className="rounded-full bg-ink/8 px-3 py-1 text-[13px] font-semibold text-ink-2">{inProgress} next up</span>
           )}
           {streak >= 2 && (
             <span className="rounded-full bg-done/10 px-3 py-1 text-[13px] font-semibold text-done">{streak} day streak</span>
@@ -88,7 +88,7 @@ export default function TodayView() {
               onClick={() => setFlyOut("up")}
               className="rounded-full border border-ink/15 bg-surface py-3.5 text-[15px] font-medium text-ink transition-colors hover:bg-ink/5 active:scale-[0.98]"
             >
-              Save for later
+              Someday
             </button>
             <button
               onClick={() => setFlyOut("right")}
@@ -97,12 +97,12 @@ export default function TodayView() {
               I&apos;m in
             </button>
           </div>
-          <p className="mt-3 text-center text-[12px] text-ink-3">Swipe right to accept · left to skip · up to save</p>
+          <p className="mt-3 text-center text-[12px] text-ink-3">Swipe right if you&apos;re in · up for someday · left to skip</p>
         </>
       ) : (
         <EmptyState
           title="You have seen them all"
-          body="Every quest here is done, saved, in progress or skipped recently. Bring the skipped ones back?"
+          body="Every quest here is done, queued, saved for someday or skipped recently. Bring the skipped ones back?"
           action={{ label: "Bring them back", onClick: () => dispatch({ type: "resetDismissed" }) }}
         />
       )}

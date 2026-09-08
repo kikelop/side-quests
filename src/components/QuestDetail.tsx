@@ -49,7 +49,7 @@ export default function QuestDetail({ id }: { id: string }) {
         </section>
       ) : active ? (
         <section className="mt-5">
-          <p className="text-center text-[13px] font-medium text-ink-2">In progress since {formatDate(active.date)}</p>
+          <p className="text-center text-[13px] font-medium text-ink-2">Next up since {formatDate(active.date)}</p>
           <div className="mt-3 grid grid-cols-[auto_1fr] gap-2">
             <button
               onClick={() => {
@@ -77,12 +77,12 @@ export default function QuestDetail({ id }: { id: string }) {
         <section className="mt-5 grid grid-cols-[1fr_1fr] gap-2">
           <button
             onClick={() => {
-              toast(saved ? "Removed from your list" : "Saved for later");
+              toast(saved ? "Removed from Someday" : "Added to Someday");
               dispatch({ type: "toggleSaved", id, date: today });
             }}
             className="rounded-full border border-ink/15 bg-surface py-3.5 text-[15px] font-medium text-ink hover:bg-ink/5"
           >
-            {saved ? "Unsave" : "Save for later"}
+            {saved ? "Remove from Someday" : "Someday"}
           </button>
           <button
             onClick={() => {
@@ -93,6 +93,16 @@ export default function QuestDetail({ id }: { id: string }) {
             className="rounded-full bg-ink py-3.5 text-[15px] font-semibold text-white active:scale-[0.98]"
           >
             I&apos;m in
+          </button>
+          <button
+            onClick={() => {
+              buzz(16);
+              toast("Marked as done");
+              dispatch({ type: "markDone", id, date: today });
+            }}
+            className="col-span-2 rounded-full py-3 text-[14px] font-medium text-ink-2 hover:bg-ink/5"
+          >
+            Already done it
           </button>
         </section>
       )}

@@ -85,7 +85,7 @@ export default function ExploreView() {
               doneDate={doneDates.get(q.id)}
               onToggleSaved={() => {
                 buzz();
-                toast(state.saved.includes(q.id) ? "Removed from your list" : "Added to your list");
+                toast(state.saved.includes(q.id) ? "Removed from Someday" : "Added to Someday");
                 dispatch({ type: "toggleSaved", id: q.id, date: todayISO() });
               }}
               onDone={() => {
