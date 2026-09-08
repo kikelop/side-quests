@@ -18,6 +18,7 @@ describe("sanitize", () => {
         saved: ["micro-a", "micro-a", "gone"],
         done: [{ id: "big-b", date: "2026-08-01" }, { id: "big-b", date: "2026-08-02" }, { id: "micro-a", date: "yesterday" }],
         dismissed: [{ id: "micro-a", date: "2026-08-01" }, { id: "big-b", date: "2026-09-01" }],
+        active: [{ id: "big-b", date: TODAY }, { id: "micro-a", date: TODAY }, { id: "gone", date: TODAY }],
         today: { id: "gone", date: TODAY },
         prefs: { todayScale: "huge" },
       },
@@ -27,6 +28,7 @@ describe("sanitize", () => {
     expect(out).toEqual({
       version: 1,
       saved: ["micro-a"],
+      active: [{ id: "micro-a", date: TODAY }],
       done: [{ id: "big-b", date: "2026-08-01" }],
       dismissed: [{ id: "big-b", date: "2026-09-01" }],
       today: null,

@@ -42,6 +42,7 @@ function matches<T>(selected: T[], value: T): boolean {
 export function applyFilters(quests: Quest[], state: UserState, f: Filters): Quest[] {
   const done = new Map(state.done.map((d) => [d.id, d.date]));
   const saved = new Set(state.saved);
+  const active = new Set(state.active.map((a) => a.id));
   const q = f.query.trim().toLowerCase();
 
   const out = quests.filter((quest) => {
@@ -57,7 +58,7 @@ export function applyFilters(quests: Quest[], state: UserState, f: Filters): Que
     const isSaved = saved.has(quest.id);
     if (f.status === "done" && !isDone) return false;
     if (f.status === "saved" && !isSaved) return false;
-    if (f.status === "todo" && (isDone || isSaved)) return false;
+    if (f.status === "todo" && (isDone || isSaved || active.has(quest.id))) return false;
 
     if (q) {
       const hay = `${quest.title} ${quest.description} ${(quest.tags ?? []).join(" ")}`.toLowerCase();
@@ -69,7 +70,7 @@ export function applyFilters(quests: Quest[], state: UserState, f: Filters): Que
   if (f.status === "done") {
     return out.sort((a, b) => (done.get(b.id) ?? "").localeCompare(done.get(a.id) ?? ""));
   }
-  // Untouched first, then saved, then done; alphabetical inside each group.
-  const rank = (id: string) => (done.has(id) ? 2 : saved.has(id) ? 1 : 0);
+  // Untouched first, then in progress / saved, then done; alphabetical inside each group.
+  const rank = (id: string) => (done.has(id) ? 2 : saved.has(id) || active.has(id) ? 1 : 0);
   return out.sort((a, b) => rank(a.id) - rank(b.id) || a.title.localeCompare(b.title));
 }

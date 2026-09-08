@@ -53,7 +53,8 @@ describe("reducer", () => {
   });
 
   it("finishing the pinned quest redraws the card immediately", () => {
-    let s = reduce(EMPTY_STATE, { type: "ensureToday", ctx });
+    // Scale pinned to micro so the redraw (which uses Math.random) is deterministic.
+    let s = reduce(EMPTY_STATE, { type: "setTodayScale", scale: "micro", ctx });
     expect(s.today?.id).toBe("micro-a");
     s = reduce(s, { type: "markDone", id: "micro-a", date: TODAY });
     expect(s.today?.id).toBe("micro-b");
@@ -63,7 +64,7 @@ describe("reducer", () => {
   });
 
   it("saving the pinned quest moves the card on", () => {
-    let s = reduce(EMPTY_STATE, { type: "ensureToday", ctx });
+    let s = reduce(EMPTY_STATE, { type: "setTodayScale", scale: "micro", ctx });
     s = reduce(s, { type: "toggleSaved", id: "micro-a", date: TODAY });
     expect(s.saved).toEqual(["micro-a"]);
     expect(s.today?.id).toBe("micro-b");
@@ -75,6 +76,23 @@ describe("reducer", () => {
     expect(s2.today?.id).toBe("micro-a");
     const s3 = reduce(s2, { type: "setTodayScale", scale: "big", ctx });
     expect(s3.today?.id).toBe("big-c");
+  });
+
+  it("accepting moves a quest to in progress and off the card", () => {
+    let s = reduce(EMPTY_STATE, { type: "setTodayScale", scale: "micro", ctx });
+    s = reduce(s, { type: "toggleSaved", id: "big-c", date: TODAY });
+    s = reduce(s, { type: "accept", id: "micro-a", date: TODAY });
+    expect(s.active).toEqual([{ id: "micro-a", date: TODAY }]);
+    expect(s.today?.id).toBe("micro-b");
+    // Accepting a saved quest takes it out of saved.
+    s = reduce(s, { type: "accept", id: "big-c", date: TODAY });
+    expect(s.saved).toEqual([]);
+    expect(s.active.map((a) => a.id)).toEqual(["micro-a", "big-c"]);
+    // Done clears in progress; unaccept puts it back in the pool.
+    s = reduce(s, { type: "markDone", id: "micro-a", date: TODAY });
+    expect(s.active.map((a) => a.id)).toEqual(["big-c"]);
+    s = reduce(s, { type: "unaccept", id: "big-c" });
+    expect(s.active).toEqual([]);
   });
 
   it("resetAll returns to the empty state", () => {

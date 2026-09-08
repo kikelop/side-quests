@@ -31,6 +31,7 @@ export function sanitize(raw: unknown, knownIds: Set<string>, today: string): Us
     ? Array.from(new Set(r.saved.filter((id): id is string => typeof id === "string" && knownIds.has(id))))
     : [];
   const done = cleanRefs(r.done, knownIds);
+  const active = cleanRefs(r.active, knownIds).filter((a) => !done.some((d) => d.id === a.id));
   const dismissed = cleanRefs(r.dismissed, knownIds).filter(
     (d) => daysBetween(d.date, today) < DISMISS_TTL_DAYS,
   );
@@ -41,6 +42,7 @@ export function sanitize(raw: unknown, knownIds: Set<string>, today: string): Us
   return {
     version: 1,
     saved,
+    active,
     done,
     dismissed,
     today: today_,

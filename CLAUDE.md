@@ -6,9 +6,10 @@ Repo propio: `kikelop/side-quests`. Vive en `~/workspace/personal/side-quests/` 
 
 ## Cómo funciona el producto
 
-- **Today** (`/`): una quest al azar en una card a sangre del color de su escala (ámbar hoy / cacao lifetime). Tres acciones: *Skip* (la descarta 14 días), *Save for later* (va a My list), *Done*. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Lifetime.
+- **Today** (`/`): una quest al azar en una card a sangre del color de su escala (ámbar hoy / cacao lifetime). **Gestos tipo Tinder** (`SwipeCard`): izquierda = *Skip* (descarta 14 días), derecha = *I'm in* (acepta → pasa a *In progress* y abre el detalle), arriba = *Save for later*. Los tres botones hacen lo mismo con la misma animación. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Lifetime.
+- **Detalle** (`/quest/[id]`, prerender estático de las 240): card + acciones según estado — sin tocar: *Save* / *I'm in*; en curso: *Drop it* / *Mark as done*; hecha: fecha + *Undo*. **Done ya no está en Today**: completar pasa por el detalle o por las filas de Explore / My list.
 - **Explore** (`/explore`): catálogo con búsqueda, chips de categoría, sheet de filtros (escala, duración, coste, dónde, con quién) y pestañas All / To do / Done. Acepta `?status=done`.
-- **My list** (`/list`): Saved y Done (por fecha desc). Deshacer done desde ahí.
+- **My list** (`/list`): In progress · Saved · Done (por fecha desc). Deshacer done desde ahí.
 - Todo el estado del usuario es **local** (`localStorage`, clave `side-quests:v1`). Sin cuentas, sin backend, sin IA.
 
 ## Stack
@@ -20,14 +21,14 @@ Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind 4 · Vi
 ```
 src/
 ├── app/            layout (fonts, provider, TabBar, SW) · page (Today) · explore/ · list/ · globals.css (tokens)
-├── components/     TodayView · ExploreView · MyListView · QuestCard · QuestRow · FilterBar · FilterSheet
-│                   ScaleToggle · QuestMeta · TabBar · Toasts · EmptyState
+├── components/     TodayView · SwipeCard (drag + fly-out) · QuestDetail · ExploreView · MyListView
+│                   QuestCard · QuestRow · FilterBar · FilterSheet · ScaleToggle · QuestMeta · TabBar · Toasts · EmptyState
 ├── lib/
 │   ├── types.ts          contrato de datos (Quest, UserState, enums). Portable 1:1 a Swift Codable
 │   ├── quests.ts         QUESTS / QUEST_BY_ID + labels de UI
 │   ├── theme.ts          color por escala (card) y por categoría (swatches)
 │   ├── draw.ts           sorteo: pool elegible + moneda entre escalas + fallback
-│   ├── reducer.ts        acciones sobre UserState (pin diario, skip, save, done…)
+│   ├── reducer.ts        acciones sobre UserState (pin diario, skip, save, accept/unaccept, done…)
 │   ├── QuestsProvider.tsx  Context: hidrata desde localStorage, persiste tras hidratar
 │   ├── persistence.ts    load/save + sanitize (ids muertos, fechas malas, TTL de dismissed)
 │   ├── filters.ts        applyFilters puro para Explore
@@ -57,6 +58,7 @@ public/               manifest.json · sw.js · icon-192/512 · apple-touch-icon
 4. Dismissed caduca a 14 días; en Today, si el pool se vacía, se ofrece "Bring them back".
 5. El provider **ignora acciones antes de hidratar** para que el estado vacío inicial nunca pise localStorage.
 6. Branding elegido por Kike (2026-09-08, `design/branding-lab-2.html`, cruce T11 × C15 A): Unbounded + Onest, paleta cálida — crema `#fff7ec`, tinta cacao `#3a2a1a`, ámbar `#ffb347`. La card de Today va por **escala** (ámbar = hoy, cacao = una vez en la vida), no por categoría; las categorías son swatches cálidos en Explore. Botón primario = tinta (se descartó el naranja `#ff7a1a`). Los labs de branding viven en `design/`.
+7. Estado **In progress** (`state.active`, 2026-09-08): el swipe a la derecha necesitaba un "sí" que no fuera "ya lo hice". Aceptar saca la quest del sorteo y la deja en My list hasta completarla. Es el gancho para la siguiente pieza: foto + texto al completar (IndexedDB) y share card; red social solo con backend, después de iOS.
 
 ## Trabajar aquí
 

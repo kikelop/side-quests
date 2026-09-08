@@ -81,6 +81,7 @@ export default function ExploreView() {
               key={q.id}
               quest={q}
               saved={state.saved.includes(q.id)}
+              active={state.active.some((a) => a.id === q.id)}
               doneDate={doneDates.get(q.id)}
               onToggleSaved={() => {
                 buzz();

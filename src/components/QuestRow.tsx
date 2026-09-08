@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import QuestMeta from "./QuestMeta";
 import { CATEGORY_LABEL, SCALE_LABEL } from "@/lib/quests";
 import { CATEGORY_THEME } from "@/lib/theme";
@@ -8,6 +9,7 @@ import type { Quest } from "@/lib/types";
 export interface QuestRowProps {
   quest: Quest;
   saved: boolean;
+  active?: boolean;
   doneDate?: string;
   onToggleSaved: () => void;
   onDone: () => void;
@@ -15,7 +17,7 @@ export interface QuestRowProps {
 }
 
 /** Compact row for lists. Category swatch on the left, actions on the right. */
-export default function QuestRow({ quest, saved, doneDate, onToggleSaved, onDone, onUndo }: QuestRowProps) {
+export default function QuestRow({ quest, saved, active = false, doneDate, onToggleSaved, onDone, onUndo }: QuestRowProps) {
   const t = CATEGORY_THEME[quest.category];
   const isDone = Boolean(doneDate);
 
@@ -31,9 +33,12 @@ export default function QuestRow({ quest, saved, doneDate, onToggleSaved, onDone
           {CATEGORY_LABEL[quest.category]}
           {quest.scale === "big" && ` · ${SCALE_LABEL.big}`}
           {isDone && ` · Done ${formatDate(doneDate!)}`}
+          {active && !isDone && " · In progress"}
         </p>
         <h3 className={`font-display mt-0.5 text-[15px] font-semibold leading-snug ${isDone ? "text-ink-2 line-through decoration-ink/30" : ""}`}>
-          {quest.title}
+          <Link href={`/quest/${quest.id}`} className="hover:underline underline-offset-4">
+            {quest.title}
+          </Link>
         </h3>
         <p className="mt-1 text-[14px] leading-snug text-ink-2">{quest.description}</p>
         <div className="mt-3 flex items-center justify-between gap-3">
@@ -45,8 +50,12 @@ export default function QuestRow({ quest, saved, doneDate, onToggleSaved, onDone
               </IconButton>
             ) : (
               <>
-                <IconButton label={saved ? "Remove from list" : "Save to list"} onClick={onToggleSaved} active={saved}>
-                  <BookmarkIcon filled={saved} />
+                <IconButton
+                  label={active ? "Drop it" : saved ? "Remove from list" : "Save to list"}
+                  onClick={onToggleSaved}
+                  active={saved || active}
+                >
+                  {active ? <DropIcon /> : <BookmarkIcon filled={saved} />}
                 </IconButton>
                 <IconButton label="Mark done" onClick={onDone}>
                   <CheckIcon />
@@ -93,6 +102,14 @@ function BookmarkIcon({ filled }: { filled: boolean }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden>
       <path d="M6.5 4.5h11a1 1 0 0 1 1 1v14.2l-6.5-4.1-6.5 4.1V5.5a1 1 0 0 1 1-1z" />
+    </svg>
+  );
+}
+
+function DropIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <path d="M6 6l12 12M18 6L6 18" />
     </svg>
   );
 }

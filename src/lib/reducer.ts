@@ -5,6 +5,8 @@ import type { Quest, TodayScale, UserState } from "./types";
 export type Action =
   | { type: "hydrate"; state: UserState }
   | { type: "toggleSaved"; id: string; date: string }
+  | { type: "accept"; id: string; date: string }
+  | { type: "unaccept"; id: string }
   | { type: "markDone"; id: string; date: string }
   | { type: "undoDone"; id: string }
   | { type: "removeSaved"; id: string }
@@ -36,6 +38,7 @@ function ensureToday(quests: Quest[], byId: Map<string, Quest>, state: UserState
     !current.retired &&
     (scale === "any" || current.scale === scale) &&
     !state.done.some((d) => d.id === current.id) &&
+    !state.active.some((a) => a.id === current.id) &&
     !state.saved.includes(current.id);
   if (stillValid) return state;
   return pin(state, drawQuest(quests, state, scale, ctx), ctx.today);
@@ -62,6 +65,24 @@ export function createReducer(quests: Quest[]) {
         return redrawIfPinned(quests, { ...state, saved, dismissed: withoutId(state.dismissed, action.id) }, action.id, action.date);
       }
 
+      case "accept": {
+        if (state.active.some((a) => a.id === action.id)) return state;
+        return redrawIfPinned(
+          quests,
+          {
+            ...state,
+            active: [...state.active, { id: action.id, date: action.date }],
+            saved: state.saved.filter((id) => id !== action.id),
+            dismissed: withoutId(state.dismissed, action.id),
+          },
+          action.id,
+          action.date,
+        );
+      }
+
+      case "unaccept":
+        return { ...state, active: withoutId(state.active, action.id) };
+
       case "removeSaved":
         return { ...state, saved: state.saved.filter((id) => id !== action.id) };
 
@@ -73,6 +94,7 @@ export function createReducer(quests: Quest[]) {
             ...state,
             done: [...state.done, { id: action.id, date: action.date }],
             saved: state.saved.filter((id) => id !== action.id),
+            active: withoutId(state.active, action.id),
             dismissed: withoutId(state.dismissed, action.id),
           },
           action.id,
@@ -105,7 +127,7 @@ export function createReducer(quests: Quest[]) {
         return { ...state, dismissed: [] };
 
       case "resetAll":
-        return { version: 1, saved: [], done: [], dismissed: [], today: null, prefs: { todayScale: "any" } };
+        return { version: 1, saved: [], active: [], done: [], dismissed: [], today: null, prefs: { todayScale: "any" } };
     }
   };
 }

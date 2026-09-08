@@ -51,6 +51,8 @@ export interface UserState {
   version: 1;
   /** Insertion order. */
   saved: string[];
+  /** Accepted quests, in progress. Date = when it was accepted. */
+  active: DatedRef[];
   done: DatedRef[];
   /** Skipped quests. Entries expire after DISMISS_TTL_DAYS. */
   dismissed: DatedRef[];
@@ -83,6 +85,7 @@ export const DISMISS_TTL_DAYS = 14;
 export const EMPTY_STATE: UserState = {
   version: 1,
   saved: [],
+  active: [],
   done: [],
   dismissed: [],
   today: null,

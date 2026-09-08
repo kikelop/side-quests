@@ -3,6 +3,7 @@
 // cached on first use, everything else is network-first with a cache fallback.
 const CACHE = "side-quests-v1";
 const PRECACHE = ["/", "/explore", "/list", "/manifest.json"];
+// Quest detail pages are cached on first visit (network-first below).
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

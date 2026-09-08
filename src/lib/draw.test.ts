@@ -29,6 +29,11 @@ describe("eligibleQuests", () => {
     expect(eligibleQuests(QUESTS, state, "any", TODAY)).toEqual([]);
   });
 
+  it("excludes quests in progress", () => {
+    const state: UserState = { ...EMPTY_STATE, active: [{ id: "micro-a", date: TODAY }] };
+    expect(eligibleQuests(QUESTS, state, "micro", TODAY).map((x) => x.id)).toEqual(["micro-b"]);
+  });
+
   it("lets dismissals expire after the TTL", () => {
     const state: UserState = { ...EMPTY_STATE, dismissed: [{ id: "big-c", date: "2026-08-01" }] };
     expect(eligibleQuests(QUESTS, state, "big", TODAY).map((x) => x.id)).toEqual(["big-c"]);

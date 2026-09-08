@@ -17,7 +17,7 @@ export function activeDismissals(state: UserState, today: string): Set<string> {
 
 /**
  * Quests that may appear on the Today card: not retired, not done, not
- * already on the list, not skipped recently, and matching the scale filter.
+ * accepted or saved already, not skipped recently, and matching the scale.
  */
 export function eligibleQuests(
   quests: Quest[],
@@ -27,7 +27,7 @@ export function eligibleQuests(
   { ignoreDismissed = false } = {},
 ): Quest[] {
   const done = new Set(state.done.map((d) => d.id));
-  const saved = new Set(state.saved);
+  const saved = new Set([...state.saved, ...state.active.map((a) => a.id)]);
   const dismissed = ignoreDismissed ? new Set<string>() : activeDismissals(state, today);
   return quests.filter(
     (q) =>
