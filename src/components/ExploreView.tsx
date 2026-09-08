@@ -33,7 +33,7 @@ export default function ExploreView() {
   return (
     <main className="px-5 pt-6">
       <header className="mb-4">
-        <h1 className="font-display text-[28px] font-semibold leading-none">Explore</h1>
+        <h1 className="font-display text-[24px] font-semibold leading-none">Explore</h1>
         <p className="mt-1 text-[13px] font-medium text-ink-2">
           {results.length} of {QUESTS.length} quests
         </p>

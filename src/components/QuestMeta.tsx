@@ -13,7 +13,7 @@ export default function QuestMeta({ quest, onColor = false }: { quest: Quest; on
         <li
           key={label}
           className={`rounded-full px-2.5 py-1 text-[12px] font-medium leading-none ${
-            onColor ? "bg-white/18 text-current backdrop-blur-sm" : "bg-ink/6 text-ink-2"
+            onColor ? "text-current [background:color-mix(in_srgb,currentColor_16%,transparent)]" : "bg-ink/6 text-ink-2"
           }`}
         >
           {label}

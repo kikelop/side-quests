@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side Quests · Branding lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Anton&family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600&family=Barlow:wght@400;500;600&family=Bebas+Neue&family=Chivo+Mono:wght@400;500&family=Chivo:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Gloock&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Karla:wght@400;500;600&family=Krona+One&family=Lato:wght@400;700&family=Libre+Caslon+Display&family=Libre+Caslon+Text:wght@400;700&family=Manrope:wght@400;500;600&family=Mulish:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Nunito+Sans:wght@400;500;600&family=Onest:wght@400;500;600&family=Oswald:wght@500;600&family=Playfair+Display:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=Rubik:wght@400;500;600&family=Source+Sans+3:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&family=Syne:wght@500;600;700;800&family=Unbounded:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=Young+Serif&family=Zilla+Slab:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --page: #0e0f11; --page-ink: #e8e8e6; --page-muted: #8b8d93; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--page-ink); font: 14px/1.4 system-ui, sans-serif; }
+  .bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 14px; padding: 12px 20px; background: rgba(14,15,17,.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .bar h1 { margin: 0; font-size: 15px; font-weight: 600; }
+  .bar p { margin: 0; color: var(--page-muted); font-size: 13px; }
+  .bar button { margin-left: auto; border: 1px solid rgba(255,255,255,.18); background: transparent; color: inherit; padding: 8px 14px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer; }
+  .bar button:hover { background: rgba(255,255,255,.08); }
+  .bar kbd { font: 12px ui-monospace, monospace; color: var(--page-muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 28px 24px; padding: 28px 20px 60px; }
+  .cell { display: flex; flex-direction: column; gap: 10px; }
+  .caption { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 4px; font-size: 12.5px; color: var(--page-muted); }
+  .caption b { color: var(--page-ink); font-weight: 600; }
+  .caption .num { font: 11px ui-monospace, monospace; opacity: .7; margin-right: 6px; }
+  .swatches { display: flex; gap: 6px; }
+  .swatches button { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+  .swatches button[aria-pressed="true"] { border-color: #fff; }
+
+  /* ---------- the phone ---------- */
+  .phone {
+    --r: 24px; --r-ui: 999px; --case: none; --track: -0.02em; --title: 30px; --lead: 1.05; --dw: 600;
+    width: 100%; aspect-ratio: 330 / 690; border-radius: 34px; overflow: hidden;
+    background: var(--bg); color: var(--ink);
+    font-family: var(--body), system-ui, sans-serif; font-size: 13.5px; line-height: 1.4;
+    display: flex; flex-direction: column; padding: 22px 18px 0; position: relative;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 30px 60px -30px rgba(0,0,0,.8);
+    transition: background .25s, color .25s;
+  }
+  .phone .display, .phone h1, .phone h2 { font-family: var(--display), serif; font-weight: var(--dw); letter-spacing: var(--track); text-transform: var(--case); }
+  .phone header p { margin: 0 0 2px; font-size: 12px; font-weight: 500; color: var(--muted); }
+  .phone h1 { margin: 0; font-size: 24px; line-height: 1; }
+  .seg { display: inline-flex; gap: 2px; margin: 14px 0 12px; padding: 3px; border-radius: var(--r-ui); background: color-mix(in srgb, var(--ink) 7%, transparent); font-size: 12px; font-weight: 500; color: var(--muted); }
+  .seg span { padding: 6px 11px; border-radius: var(--r-ui); }
+  .seg .on { background: var(--surface, var(--bg)); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .card { flex: 1; display: flex; flex-direction: column; justify-content: space-between; border-radius: var(--r); padding: 20px 20px 18px; background: var(--card); color: var(--card-ink); border: var(--card-border, 0) solid var(--card-ink); transition: background .25s, color .25s; }
+  .kicker { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+  .card h2 { margin: 26px 0 0; font-size: var(--title); line-height: var(--lead); }
+  .card p { margin: 12px 0 0; font-size: 13.5px; line-height: 1.45; opacity: .9; max-width: 32ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: 5px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .meta li { padding: 5px 9px; border-radius: var(--r-ui); font-size: 11px; font-weight: 500; background: color-mix(in srgb, var(--card-ink) 16%, transparent); }
+  .actions { display: grid; grid-template-columns: auto 1fr 1fr; gap: 7px; margin: 12px 0 0; }
+  .actions button { border: 0; font: inherit; font-size: 13px; font-weight: 500; padding: 11px 12px; border-radius: var(--r-ui); cursor: default; }
+  .ghost { background: transparent; color: var(--muted); }
+  .sec { background: var(--surface, var(--bg)); color: var(--ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); }
+  .pri { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+  .tabs { display: flex; margin: 14px -4px 0; padding: 5px; border-radius: var(--r-ui) var(--r-ui) 0 0; background: var(--surface, var(--bg)); box-shadow: 0 -1px 0 color-mix(in srgb, var(--ink) 10%, transparent); font-size: 10px; font-weight: 500; color: var(--muted); }
+  .tabs span { flex: 1; text-align: center; padding: 9px 0 12px; border-radius: var(--r-ui); }
+  .tabs .on { background: var(--ink); color: var(--bg); }
+  .tabs svg { display: block; margin: 0 auto 3px; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div><h1>Side Quests · Branding lab</h1><p>20 pairings × 3 palettes each. Click a swatch, or cycle everything.</p></div>
+  <kbd>space</kbd><button id="cycle">Cycle all palettes</button>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+// Each variant: display + body font, shape language, and three interchangeable palettes.
+// Palette: [bg, ink, muted, card, cardInk, accent, accentInk?, surface?]
+const V = [
+  { name: "Fraunces + Karla", display: "'Fraunces'", body: "'Karla'", r: "22px", track: "-0.015em", title: "32px",
+    p: [["#f6efe4","#2a2118","#8a7b6a","#7a2e2a","#f9efe6","#2a2118","#f6efe4"],["#1c1a17","#f3ece2","#9a9083","#d9a441","#1c1a17","#f3ece2","#1c1a17"],["#e9eee6","#1f2a22","#7b8a7f","#2f5d46","#eef5ef","#1f2a22","#e9eee6"]] },
+  { name: "Playfair Display + Source Sans 3", display: "'Playfair Display'", body: "'Source Sans 3'", r: "6px", rui: "6px", track: "-0.01em", title: "31px",
+    p: [["#ffffff","#111111","#777777","#111111","#ffffff","#b3261e","#ffffff"],["#0f0f10","#f5f5f5","#8a8a8a","#f5f5f5","#0f0f10","#e0b24a","#0f0f10"],["#f3efe9","#23262b","#86807a","#1f3a5f","#f3efe9","#1f3a5f","#f3efe9"]] },
+  { name: "DM Serif Display + DM Sans", display: "'DM Serif Display'", body: "'DM Sans'", r: "28px", dw: "400", title: "31px",
+    p: [["#fbf7f2","#2b2b2b","#9b948c","#f2c2b3","#4a2419","#d8674a","#ffffff"],["#ecf1f4","#1d2a33","#7d8d98","#244b5f","#eaf3f8","#244b5f","#ecf1f4"],["#f5f2ff","#26224a","#8a86a8","#5b4bd6","#f5f2ff","#5b4bd6","#f5f2ff"]] },
+  { name: "Space Mono + Space Grotesk", display: "'Space Mono'", body: "'Space Grotesk'", r: "4px", rui: "4px", dw: "700", track: "-0.03em", title: "24px", lead: "1.15", border: "1px",
+    p: [["#0b0e0c","#d7e2d9","#6f7d73","#10261a","#7cf29a","#7cf29a","#0b0e0c"],["#f2f2f0","#141414","#7a7a76","#141414","#f2f2f0","#ff5c1a","#141414"],["#101318","#e6eaf2","#7a8397","#1a2233","#9ec1ff","#9ec1ff","#101318"]] },
+  { name: "IBM Plex Mono + IBM Plex Sans", display: "'IBM Plex Mono'", body: "'IBM Plex Sans'", r: "0px", rui: "0px", dw: "500", track: "-0.02em", title: "25px", lead: "1.15",
+    p: [["#ffffff","#161616","#6f6f6f","#0f62fe","#ffffff","#0f62fe","#ffffff"],["#161616","#f4f4f4","#8d8d8d","#f1c21b","#161616","#f1c21b","#161616"],["#f4f4f4","#161616","#6f6f6f","#198038","#f4f4f4","#161616","#f4f4f4"]] },
+  { name: "Archivo Black + Archivo Narrow", display: "'Archivo Black'", body: "'Archivo Narrow'", r: "10px", rui: "6px", dw: "400", track: "-0.03em", title: "31px", lead: "0.98", uc: true,
+    p: [["#ffe814","#111111","#6b6200","#111111","#ffe814","#111111","#ffe814"],["#111111","#ffffff","#888888","#ff3b1f","#111111","#ff3b1f","#111111"],["#f1f1f1","#111111","#777777","#2b3cff","#f1f1f1","#2b3cff","#f1f1f1"]] },
+  { name: "Anton + Work Sans", display: "'Anton'", body: "'Work Sans'", r: "16px", dw: "400", track: "0", title: "40px", lead: "0.95", uc: true,
+    p: [["#f7f4ee","#141414","#7d7a74","#c8102e","#ffffff","#c8102e","#ffffff"],["#0e0e0e","#f7f4ee","#8b8883","#f7f4ee","#0e0e0e","#ff8a00","#0e0e0e"],["#eef4f1","#10201a","#6d8378","#0b5c3a","#eef4f1","#0b5c3a","#eef4f1"]] },
+  { name: "Bebas Neue + Barlow", display: "'Bebas Neue'", body: "'Barlow'", r: "8px", rui: "8px", dw: "400", track: "0.01em", title: "42px", lead: "0.95",
+    p: [["#fdf6e3","#2c2418","#9a8c74","#e07a1f","#2c2418","#2c2418","#fdf6e3"],["#1f2024","#eae6dc","#8c8a82","#d8cbb0","#1f2024","#d8cbb0","#1f2024"],["#e8f0f7","#1d2b3a","#7a8a9c","#163a5c","#e8f0f7","#163a5c","#e8f0f7"]] },
+  { name: "Oswald + Lato", display: "'Oswald'", body: "'Lato'", r: "14px", rui: "8px", dw: "600", track: "-0.01em", title: "32px", uc: true,
+    p: [["#f2efe6","#22302a","#7f8b83","#3a5a40","#f2efe6","#3a5a40","#f2efe6"],["#1b1f1c","#efece4","#8f948d","#a3b18a","#1b1f1c","#a3b18a","#1b1f1c"],["#f7f0e6","#3b2f2f","#9b8c85","#a4462b","#f7f0e6","#a4462b","#f7f0e6"]] },
+  { name: "Syne + Manrope", display: "'Syne'", body: "'Manrope'", r: "2px", rui: "2px", dw: "800", track: "-0.04em", title: "31px", lead: "1",
+    p: [["#ffffff","#0a0a0a","#8a8a8a","#0a0a0a","#d4ff3f","#d4ff3f","#0a0a0a"],["#0a0a0a","#ffffff","#8a8a8a","#d4ff3f","#0a0a0a","#d4ff3f","#0a0a0a"],["#f0e9ff","#1a0f2e","#8d7fa8","#7b2cff","#f0e9ff","#7b2cff","#f0e9ff"]] },
+  { name: "Unbounded + Onest", display: "'Unbounded'", body: "'Onest'", r: "30px", dw: "600", track: "-0.03em", title: "25px", lead: "1.1",
+    p: [["#f4f4f6","#17171c","#86868f","#17171c","#ffffff","#ff4d6d","#ffffff"],["#0d0d12","#f4f4f6","#7f7f8a","#2e2ef5","#f4f4f6","#2e2ef5","#f4f4f6"],["#e9f7f5","#0f2a26","#6b8a86","#12b39c","#06231f","#12b39c","#06231f"]] },
+  { name: "Cormorant Garamond + Nunito Sans", display: "'Cormorant Garamond'", body: "'Nunito Sans'", r: "18px", dw: "500", track: "-0.01em", title: "36px", lead: "1",
+    p: [["#f5f1ea","#2a2622","#9a9187","#2a2622","#f5f1ea","#b08d57","#1e1c19"],["#1e1c19","#ece6dc","#8f877c","#b08d57","#1e1c19","#b08d57","#1e1c19"],["#eef0ec","#26302a","#86908a","#4b5f52","#eef0ec","#4b5f52","#eef0ec"]] },
+  { name: "Libre Caslon Display + Text", display: "'Libre Caslon Display'", body: "'Libre Caslon Text'", r: "12px", rui: "4px", dw: "400", track: "-0.01em", title: "31px", border: "1px",
+    p: [["#fbf8f1","#1c1a17","#8a857b","#f0e6cf","#1c1a17","#8b2635","#ffffff"],["#2b2622","#efe8db","#9b9284","#efe8db","#2b2622","#c46a3a","#ffffff"],["#e6ecf2","#1b2733","#7c8896","#1b2733","#e6ecf2","#c9a227","#1b2733"]] },
+  { name: "Newsreader + Public Sans", display: "'Newsreader'", body: "'Public Sans'", r: "0px", rui: "0px", dw: "500", track: "-0.02em", title: "33px", lead: "1",
+    p: [["#ffffff","#000000","#777777","#000000","#ffffff","#000000","#ffffff"],["#f5f0e8","#1a1a1a","#8c857a","#d33f2a","#f5f0e8","#d33f2a","#f5f0e8"],["#101010","#f2f2f2","#8a8a8a","#f2f2f2","#101010","#f2f2f2","#101010"]] },
+  { name: "Young Serif + Figtree", display: "'Young Serif'", body: "'Figtree'", r: "26px", dw: "400", track: "-0.01em", title: "30px",
+    p: [["#fff7ec","#3a2a1a","#a08a70","#ffb347","#3a2a1a","#ff7a1a","#ffffff"],["#eaf3ff","#1c2b45","#7b8ba6","#4f8cff","#ffffff","#4f8cff","#ffffff"],["#f1fbef","#1f3a22","#7d9a80","#7bd389","#12301a","#2f9e44","#ffffff"]] },
+  { name: "Instrument Serif + Instrument Sans", display: "'Instrument Serif'", body: "'Instrument Sans'", r: "16px", dw: "400", track: "-0.02em", title: "36px", lead: "1",
+    p: [["#f3f3f1","#111111","#7c7c78","#111111","#f3f3f1","#111111","#f3f3f1"],["#111111","#f3f3f1","#8a8a8a","#e8e3d5","#111111","#e8e3d5","#111111"],["#fbeee6","#3a1f14","#a3877a","#e2543b","#fbeee6","#e2543b","#fbeee6"]] },
+  { name: "Chivo + Chivo Mono", display: "'Chivo'", body: "'Chivo Mono'", r: "4px", rui: "4px", dw: "900", track: "-0.03em", title: "30px", lead: "1",
+    p: [["#ffffff","#1a1a1a","#808080","#e10600","#ffffff","#1a1a1a","#ffffff"],["#f0f0f0","#1a1a1a","#808080","#1a1a1a","#f0f0f0","#e10600","#ffffff"],["#1a1a1a","#f0f0f0","#8a8a8a","#ffd400","#1a1a1a","#ffd400","#1a1a1a"]] },
+  { name: "Krona One + Mulish", display: "'Krona One'", body: "'Mulish'", r: "20px", dw: "400", track: "-0.02em", title: "23px", lead: "1.15",
+    p: [["#efe7d8","#2d2a26","#948d82","#2d6a4f","#efe7d8","#e76f51","#2d2a26"],["#2d2a26","#efe7d8","#8f8a80","#e76f51","#2d2a26","#e76f51","#2d2a26"],["#dfe9f3","#1f2d3d","#7789a0","#f4a261","#1f2d3d","#264653","#dfe9f3"]] },
+  { name: "Zilla Slab + Rubik", display: "'Zilla Slab'", body: "'Rubik'", r: "14px", rui: "10px", dw: "700", track: "-0.015em", title: "31px",
+    p: [["#f8f5ef","#2b2b2b","#8f8a80","#5a3e8a","#f8f5ef","#5a3e8a","#f8f5ef"],["#1c1b22","#f0eef5","#8a889a","#ffb703","#1c1b22","#ffb703","#1c1b22"],["#eaf4ef","#1a3328","#6f8a7c","#2a9d8f","#eaf4ef","#2a9d8f","#eaf4ef"]] },
+  { name: "Gloock + Albert Sans", display: "'Gloock'", body: "'Albert Sans'", r: "24px", dw: "400", track: "-0.02em", title: "33px", lead: "1",
+    p: [["#fdfcf9","#171512","#8a877f","#171512","#fdfcf9","#c77dff","#171512"],["#171512","#fdfcf9","#8a877f","#c77dff","#171512","#c77dff","#171512"],["#fff0f3","#3d0a1e","#a17a8a","#d81b60","#fff0f3","#d81b60","#fff0f3"]] },
+];
+
+const ICON = {
+  dice: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/></svg>',
+  grid: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>',
+  mark: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 4.5h11a1 1 0 0 1 1 1v14.2l-6.5-4.1-6.5 4.1V5.5a1 1 0 0 1 1-1z"/></svg>',
+};
+
+const state = V.map(() => 0);
+const grid = document.getElementById("grid");
+
+function applyPalette(phone, v, i) {
+  const [bg, ink, muted, card, cardInk, accent, accentInk, surface] = v.p[i];
+  phone.style.setProperty("--bg", bg);
+  phone.style.setProperty("--ink", ink);
+  phone.style.setProperty("--muted", muted);
+  phone.style.setProperty("--card", card);
+  phone.style.setProperty("--card-ink", cardInk);
+  phone.style.setProperty("--accent", accent);
+  phone.style.setProperty("--accent-ink", accentInk || bg);
+  phone.style.setProperty("--surface", surface || bg);
+}
+
+V.forEach((v, idx) => {
+  const cell = document.createElement("div");
+  cell.className = "cell";
+  cell.innerHTML = `
+    <div class="phone" style="--display:${v.display};--body:${v.body};--r:${v.r || "24px"};--r-ui:${v.rui || "999px"};--dw:${v.dw || 600};--track:${v.track || "-0.02em"};--title:${v.title || "30px"};--lead:${v.lead || "1.05"};--case:${v.uc ? "uppercase" : "none"};--card-border:${v.border || "0px"}">
+      <header><p>Tuesday 8 September</p><h1>Today's quest</h1></header>
+      <div class="seg"><span class="on">Any</span><span>Today</span><span>Lifetime</span></div>
+      <article class="card">
+        <div class="kicker"><span>Nature</span><span>Today</span></div>
+        <div>
+          <h2>Watch a sunset from start to finish</h2>
+          <p>Find west, sit down twenty minutes before, and stay until the last color is gone. Phone stays in your pocket.</p>
+        </div>
+        <ul class="meta"><li>Minutes</li><li>Free</li><li>Outdoors</li></ul>
+      </article>
+      <div class="actions"><button class="ghost">Skip</button><button class="sec">Save for later</button><button class="pri">Done</button></div>
+      <nav class="tabs"><span class="on">${ICON.dice}Today</span><span>${ICON.grid}Explore</span><span>${ICON.mark}My list</span></nav>
+    </div>
+    <div class="caption"><span><span class="num">${String(idx + 1).padStart(2, "0")}</span><b>${v.name}</b></span><div class="swatches"></div></div>`;
+  const phone = cell.querySelector(".phone");
+  const sw = cell.querySelector(".swatches");
+  v.p.forEach((pal, i) => {
+    const b = document.createElement("button");
+    b.style.setProperty("--a", pal[0]);
+    b.style.setProperty("--b", pal[3]);
+    b.title = `Palette ${"ABC"[i]}`;
+    b.setAttribute("aria-pressed", String(i === 0));
+    b.onclick = () => set(idx, i);
+    sw.appendChild(b);
+  });
+  grid.appendChild(cell);
+  applyPalette(phone, v, 0);
+});
+
+function set(idx, i) {
+  state[idx] = i;
+  const cell = grid.children[idx];
+  applyPalette(cell.querySelector(".phone"), V[idx], i);
+  [...cell.querySelectorAll(".swatches button")].forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+}
+function cycleAll() { V.forEach((v, idx) => set(idx, (state[idx] + 1) % v.p.length)); }
+document.getElementById("cycle").onclick = cycleAll;
+addEventListener("keydown", (e) => { if (e.code === "Space" && e.target === document.body) { e.preventDefault(); cycleAll(); } });
+</script>
+</body>
+</html>

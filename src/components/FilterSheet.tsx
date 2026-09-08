@@ -44,7 +44,7 @@ export default function FilterSheet({
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-ink/15" />
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-display text-[22px] font-semibold">Filters</h2>
+          <h2 className="font-display text-[19px] font-semibold">Filters</h2>
           <button onClick={clear} className="text-[14px] font-medium text-ink-2 hover:text-ink">
             Clear
           </button>

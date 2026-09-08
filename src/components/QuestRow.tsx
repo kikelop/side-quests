@@ -32,7 +32,7 @@ export default function QuestRow({ quest, saved, doneDate, onToggleSaved, onDone
           {quest.scale === "big" && ` · ${SCALE_LABEL.big}`}
           {isDone && ` · Done ${formatDate(doneDate!)}`}
         </p>
-        <h3 className={`font-display mt-0.5 text-[18px] font-semibold leading-tight ${isDone ? "text-ink-2 line-through decoration-ink/30" : ""}`}>
+        <h3 className={`font-display mt-0.5 text-[15px] font-semibold leading-snug ${isDone ? "text-ink-2 line-through decoration-ink/30" : ""}`}>
           {quest.title}
         </h3>
         <p className="mt-1 text-[14px] leading-snug text-ink-2">{quest.description}</p>

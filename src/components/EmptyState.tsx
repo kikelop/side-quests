@@ -9,7 +9,7 @@ export default function EmptyState({
 }) {
   return (
     <div className="fade-in flex flex-col items-center justify-center rounded-[var(--radius-card)] border border-dashed border-ink/15 px-8 py-16 text-center">
-      <h3 className="font-display text-[22px] font-semibold">{title}</h3>
+      <h3 className="font-display text-[19px] font-semibold">{title}</h3>
       <p className="mt-2 max-w-[30ch] text-[15px] leading-snug text-ink-2">{body}</p>
       {action && (
         <button

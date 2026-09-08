@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #eef0f3;
-  --surface: #ffffff;
-  --ink: #15171c;
-  --ink-2: #5b6170;
-  --ink-3: #9aa0ad;
-  --line: rgba(21, 23, 28, 0.08);
-  --done: #1f8a5b;
-  --radius-card: 28px;
+  /* Warm palette: cream ground, dark cocoa ink, amber cards. */
+  --bg: #fff7ec;
+  --surface: #fffdf8;
+  --ink: #3a2a1a;
+  --ink-2: #7a6650;
+  --ink-3: #a08a70;
+  --line: rgba(58, 42, 26, 0.1);
+  --done: #3d7a4e;
+  --radius-card: 30px;
   --radius-ui: 14px;
   --tabbar-h: 64px;
   --safe-b: env(safe-area-inset-bottom, 0px);
@@ -22,8 +23,8 @@
   --color-ink-3: var(--ink-3);
   --color-line: var(--line);
   --color-done: var(--done);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-body), system-ui, sans-serif;
 }
 
 html {
@@ -47,7 +48,7 @@ button {
 
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 /* Page container: phone-width column, framed on larger screens. */
@@ -62,7 +63,6 @@ button {
   .shell {
     border-left: 1px solid var(--line);
     border-right: 1px solid var(--line);
-    background: color-mix(in srgb, var(--bg) 70%, white);
   }
 }
 

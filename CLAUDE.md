@@ -6,14 +6,14 @@ Repo propio: `kikelop/side-quests`. Vive en `~/workspace/personal/side-quests/` 
 
 ## Cómo funciona el producto
 
-- **Today** (`/`): una quest al azar en una card a sangre del color de su categoría. Tres acciones: *Skip* (la descarta 14 días), *Save for later* (va a My list), *Done*. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Once in a life.
+- **Today** (`/`): una quest al azar en una card a sangre del color de su escala (ámbar hoy / cacao lifetime). Tres acciones: *Skip* (la descarta 14 días), *Save for later* (va a My list), *Done*. La card está **pinneada al día**: recargar no la cambia; cambia al día siguiente o al hacer Skip. Toggle de escala Any / Today / Lifetime.
 - **Explore** (`/explore`): catálogo con búsqueda, chips de categoría, sheet de filtros (escala, duración, coste, dónde, con quién) y pestañas All / To do / Done. Acepta `?status=done`.
 - **My list** (`/list`): Saved y Done (por fecha desc). Deshacer done desde ahí.
 - Todo el estado del usuario es **local** (`localStorage`, clave `side-quests:v1`). Sin cuentas, sin backend, sin IA.
 
 ## Stack
 
-Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind 4 · Vitest + jsdom. Fuentes: Inter (texto) + Bricolage Grotesque (display) vía `next/font`. Sin librerías de estado ni animación: Context + `useReducer`, transiciones CSS.
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind 4 · Vitest + jsdom. Fuentes: Onest (texto) + Unbounded (display) vía `next/font`. Sin librerías de estado ni animación: Context + `useReducer`, transiciones CSS.
 
 ## Estructura
 
@@ -25,7 +25,7 @@ src/
 ├── lib/
 │   ├── types.ts          contrato de datos (Quest, UserState, enums). Portable 1:1 a Swift Codable
 │   ├── quests.ts         QUESTS / QUEST_BY_ID + labels de UI
-│   ├── theme.ts          color por categoría (bg, fg, tint)
+│   ├── theme.ts          color por escala (card) y por categoría (swatches)
 │   ├── draw.ts           sorteo: pool elegible + moneda entre escalas + fallback
 │   ├── reducer.ts        acciones sobre UserState (pin diario, skip, save, done…)
 │   ├── QuestsProvider.tsx  Context: hidrata desde localStorage, persiste tras hidratar
@@ -56,7 +56,7 @@ public/               manifest.json · sw.js · icon-192/512 · apple-touch-icon
 3. Pin diario en vez de PRNG con seed: sobrevive a los skips y a los cambios de escala.
 4. Dismissed caduca a 14 días; en Today, si el pool se vacía, se ofrece "Bring them back".
 5. El provider **ignora acciones antes de hidratar** para que el estado vacío inicial nunca pise localStorage.
-6. Diseño propio, no heredado de otros proyectos: base fría `#eef0f3`, tinta `#15171c`, una card a sangre por categoría (`lib/theme.ts`), tab bar flotante en píldora, Bricolage Grotesque en titulares.
+6. Branding elegido por Kike (2026-09-08, `design/branding-lab-2.html`, cruce T11 × C15 A): Unbounded + Onest, paleta cálida — crema `#fff7ec`, tinta cacao `#3a2a1a`, ámbar `#ffb347`. La card de Today va por **escala** (ámbar = hoy, cacao = una vez en la vida), no por categoría; las categorías son swatches cálidos en Explore. Botón primario = tinta (se descartó el naranja `#ff7a1a`). Los labs de branding viven en `design/`.
 
 ## Trabajar aquí
 

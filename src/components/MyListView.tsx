@@ -31,7 +31,7 @@ export default function MyListView() {
   return (
     <main className="px-5 pt-6">
       <header className="mb-4">
-        <h1 className="font-display text-[28px] font-semibold leading-none">My list</h1>
+        <h1 className="font-display text-[24px] font-semibold leading-none">My list</h1>
         <p className="mt-1 text-[13px] font-medium text-ink-2">
           {state.saved.length} saved · {state.done.length} done
         </p>

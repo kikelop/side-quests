@@ -1,11 +1,11 @@
 import QuestMeta from "./QuestMeta";
 import { CATEGORY_LABEL, SCALE_LABEL } from "@/lib/quests";
-import { CATEGORY_THEME } from "@/lib/theme";
+import { SCALE_THEME } from "@/lib/theme";
 import type { Quest } from "@/lib/types";
 
 /** The big card on the Today tab. Full-bleed in the category color. */
 export default function QuestCard({ quest, className = "" }: { quest: Quest; className?: string }) {
-  const t = CATEGORY_THEME[quest.category];
+  const t = SCALE_THEME[quest.scale];
   return (
     <article
       className={`flex flex-col justify-between rounded-[var(--radius-card)] p-6 sm:p-7 ${className}`}
@@ -16,8 +16,8 @@ export default function QuestCard({ quest, className = "" }: { quest: Quest; cla
         <span>{SCALE_LABEL[quest.scale]}</span>
       </header>
       <div className="my-8">
-        <h2 className="font-display text-[clamp(30px,8.5vw,40px)] font-semibold leading-[1.02]">{quest.title}</h2>
-        <p className="mt-4 max-w-[34ch] text-[16px] leading-[1.45] opacity-90">{quest.description}</p>
+        <h2 className="font-display text-[clamp(24px,6.8vw,30px)] font-semibold leading-[1.08]">{quest.title}</h2>
+        <p className="mt-4 max-w-[34ch] text-[15px] leading-[1.5] opacity-90">{quest.description}</p>
       </div>
       <QuestMeta quest={quest} onColor />
     </article>

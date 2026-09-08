@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side Quests · Branding lab 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Alegreya:wght@500;600;700&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Figtree:wght@400;500;600&family=Gabarito:wght@500;600;700&family=Karla:wght@400;500;600&family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&family=Nunito+Sans:wght@400;500;600&family=Onest:wght@400;500;600&family=Prata&family=Public+Sans:wght@400;500;600&family=Sora:wght@400;500;600;700&family=Spectral:wght@500;600;700&family=Vollkorn:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --page: #0e0f11; --page-ink: #e8e8e6; --page-muted: #8b8d93; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--page-ink); font: 14px/1.4 system-ui, sans-serif; }
+  .bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 14px; padding: 12px 20px; background: rgba(14,15,17,.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .bar h1 { margin: 0; font-size: 15px; font-weight: 600; }
+  .bar p { margin: 0; color: var(--page-muted); font-size: 13px; }
+  .bar button { margin-left: auto; border: 1px solid rgba(255,255,255,.18); background: transparent; color: inherit; padding: 8px 14px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer; }
+  .bar kbd { font: 12px ui-monospace, monospace; color: var(--page-muted); }
+  .matrix { display: grid; grid-template-columns: 120px repeat(5, 330px); gap: 22px 20px; padding: 24px 20px 60px; align-items: start; overflow-x: auto; }
+  .colhead { font-size: 12px; color: var(--page-muted); text-align: center; padding-top: 4px; }
+  .colhead b { display: block; color: var(--page-ink); font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .rowhead { font-size: 12px; color: var(--page-muted); padding-top: 8px; position: sticky; left: 0; }
+  .rowhead b { display: block; color: var(--page-ink); font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .cell { display: flex; flex-direction: column; gap: 8px; width: 330px; }
+  .caption { display: flex; align-items: center; justify-content: space-between; font: 11px ui-monospace, monospace; color: var(--page-muted); padding: 0 2px; }
+  .swatches { display: flex; gap: 5px; }
+  .swatches button { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+  .swatches button[aria-pressed="true"] { border-color: #fff; }
+
+  .phone {
+    --r: 24px; --r-ui: 999px; --case: none; --track: -0.02em; --title: 30px; --lead: 1.05; --dw: 600;
+    width: 330px; height: 690px; border-radius: 34px; overflow: hidden;
+    background: var(--bg); color: var(--ink);
+    font-family: var(--body), system-ui, sans-serif; font-size: 13.5px; line-height: 1.4;
+    display: flex; flex-direction: column; padding: 22px 18px 0; position: relative;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 30px 60px -30px rgba(0,0,0,.8);
+    transition: background .25s, color .25s;
+  }
+  .phone h1, .phone h2 { font-family: var(--display), serif; font-weight: var(--dw); letter-spacing: var(--track); text-transform: var(--case); }
+  .phone header p { margin: 0 0 2px; font-size: 12px; font-weight: 500; color: var(--muted); }
+  .phone h1 { margin: 0; font-size: 24px; line-height: 1; }
+  .seg { display: inline-flex; gap: 2px; margin: 14px 0 12px; padding: 3px; border-radius: var(--r-ui); background: color-mix(in srgb, var(--ink) 7%, transparent); font-size: 12px; font-weight: 500; color: var(--muted); align-self: flex-start; }
+  .seg span { padding: 6px 11px; border-radius: var(--r-ui); }
+  .seg .on { background: var(--surface, var(--bg)); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .card { flex: 1; display: flex; flex-direction: column; justify-content: space-between; border-radius: var(--r); padding: 20px 20px 18px; background: var(--card); color: var(--card-ink); transition: background .25s, color .25s; }
+  .kicker { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+  .card h2 { margin: 26px 0 0; font-size: var(--title); line-height: var(--lead); }
+  .card p { margin: 12px 0 0; font-size: 13.5px; line-height: 1.45; opacity: .9; max-width: 32ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: 5px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .meta li { padding: 5px 9px; border-radius: var(--r-ui); font-size: 11px; font-weight: 500; background: color-mix(in srgb, var(--card-ink) 16%, transparent); }
+  .actions { display: grid; grid-template-columns: auto 1fr 1fr; gap: 7px; margin: 12px 0 0; }
+  .actions button { border: 0; font: inherit; font-size: 13px; font-weight: 500; padding: 11px 12px; border-radius: var(--r-ui); cursor: default; white-space: nowrap; }
+  .ghost { background: transparent; color: var(--muted); }
+  .sec { background: var(--surface, var(--bg)); color: var(--ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); }
+  .pri { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+  .tabs { display: flex; margin: 14px -4px 0; padding: 5px; border-radius: var(--r-ui) var(--r-ui) 0 0; background: var(--surface, var(--bg)); box-shadow: 0 -1px 0 color-mix(in srgb, var(--ink) 10%, transparent); font-size: 10px; font-weight: 500; color: var(--muted); }
+  .tabs span { flex: 1; text-align: center; padding: 9px 0 12px; border-radius: var(--r-ui); }
+  .tabs .on { background: var(--ink); color: var(--bg); }
+  .tabs svg { display: block; margin: 0 auto 3px; width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div><h1>Side Quests · Branding lab 3</h1><p>New options in the same vein: 8 more typefaces (book serifs, high-contrast display, two soft grotesks) × 5 new earthy palette families. Each cell cycles its 3 palettes.</p></div>
+  <kbd>space</kbd><button id="cycle">Cycle all palettes</button>
+</div>
+<div class="matrix" id="matrix"></div>
+
+<script>
+// Typefaces kept from round 1 (numbers = round-1 ids).
+const FONTS = [
+  { id: "21", name: "Literata", body: "Karla", display: "'Literata'", bodyF: "'Karla'", r: "20px", track: "-0.015em", title: "31px", dw: 600, note: "Serif de libro digital, cálida" },
+  { id: "22", name: "Spectral", body: "Public Sans", display: "'Spectral'", bodyF: "'Public Sans'", r: "10px", rui: "10px", track: "-0.015em", title: "32px", dw: 600, note: "Serif contemporánea, algo angulosa" },
+  { id: "23", name: "Bodoni Moda", body: "Nunito Sans", display: "'Bodoni Moda'", bodyF: "'Nunito Sans'", r: "16px", track: "-0.01em", title: "36px", lead: "1", dw: 600, note: "Alto contraste, moda/editorial" },
+  { id: "24", name: "Vollkorn", body: "Figtree", display: "'Vollkorn'", bodyF: "'Figtree'", r: "22px", track: "-0.015em", title: "32px", dw: 600, note: "Serif robusta, muy legible" },
+  { id: "25", name: "Alegreya", body: "Alegreya Sans", display: "'Alegreya'", bodyF: "'Alegreya Sans'", r: "18px", track: "-0.01em", title: "34px", lead: "1", dw: 600, note: "Caligráfica, con ritmo" },
+  { id: "26", name: "Prata", body: "Onest", display: "'Prata'", bodyF: "'Onest'", r: "14px", rui: "10px", track: "-0.01em", title: "33px", lead: "1", dw: 400, note: "Display de alto contraste, un solo peso" },
+  { id: "27", name: "Gabarito", body: "Onest", display: "'Gabarito'", bodyF: "'Onest'", r: "28px", track: "-0.03em", title: "29px", dw: 700, note: "Grotesk suave, en la línea de Unbounded" },
+  { id: "28", name: "Sora", body: "Karla", display: "'Sora'", bodyF: "'Karla'", r: "26px", track: "-0.03em", title: "27px", lead: "1.1", dw: 600, note: "Geométrica ancha, más seca que Unbounded" },
+];
+
+// Palette families kept from round 1. [bg, ink, muted, card, cardInk, accent, accentInk, surface]
+const PALETTES = [
+  { id: "A", name: "Terracotta", note: "Arena+barro · cacao+arena · salvia+siena", p: [["#f3e9dc","#2e211a","#8f7d6e","#b8593a","#fbe9df","#2e211a","#f3e9dc"],["#241b17","#efe3d6","#948578","#d9a57f","#241b17","#d9a57f","#241b17"],["#e4e8dd","#263025","#7f8a79","#a34e2c","#f7ebe4","#a34e2c","#e4e8dd"]] },
+  { id: "B", name: "Moss & bark", note: "Lino+musgo · noche+liquen · crema+corteza", p: [["#ece7dc","#1f231b","#7f8375","#4f5d3a","#eef0e4","#4f5d3a","#ece7dc"],["#1c1f18","#e8e6da","#8c8f82","#9aa676","#1c1f18","#9aa676","#1c1f18"],["#f4efe6","#3b2a20","#9a8a7c","#6b4a35","#f4efe6","#6b4a35","#f4efe6"]] },
+  { id: "C", name: "Dusk", note: "Gris rosa+ciruela+albaricoque · noche+albaricoque · crema+cobre", p: [["#eee9ea","#2a1d26","#8d7f89","#4a2b45","#f6ebf0","#e08a5c","#2a1d26"],["#1e151c","#efe6ea","#8f8189","#e08a5c","#1e151c","#e08a5c","#1e151c"],["#f6efe9","#3a2233","#9d8b95","#c96f4f","#fbeee8","#4a2b45","#f6efe9"]] },
+  { id: "D", name: "Sea", note: "Arena+petróleo+coral · noche marina · bruma+coral", p: [["#f0ebe0","#1d2a30","#7c8a91","#2f4f5a","#eaf2f4","#d8694a","#f0ebe0"],["#14212a","#e6eef0","#7d8f97","#cbd8cf","#14212a","#d8694a","#14212a"],["#e6eef0","#1d2a30","#7c8a91","#d8694a","#fbeee8","#1d2a30","#e6eef0"]] },
+  { id: "E", name: "Olive & ochre", note: "Avena+oliva+ocre · carbón+ocre · ocre+oliva", p: [["#f1ead9","#2b2a20","#8b8875","#6b6b3a","#f4f1e0","#c99a2e","#2b2a20"],["#23231c","#ece7d6","#8f8d7d","#c99a2e","#23231c","#c99a2e","#23231c"],["#d9b64b","#2b2a20","#6b6130","#4f5a2e","#f1ead9","#2b2a20","#f1ead9"]] },
+];
+
+const ICON = {
+  dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/></svg>',
+  grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>',
+  mark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 4.5h11a1 1 0 0 1 1 1v14.2l-6.5-4.1-6.5 4.1V5.5a1 1 0 0 1 1-1z"/></svg>',
+};
+
+const m = document.getElementById("matrix");
+const cells = [];
+
+m.insertAdjacentHTML("beforeend", `<div></div>` + PALETTES.map((p) => `<div class="colhead"><b>${p.id} · ${p.name}</b>${p.note}</div>`).join(""));
+
+FONTS.forEach((f) => {
+  m.insertAdjacentHTML("beforeend", `<div class="rowhead"><b>${f.id} · ${f.name}</b>+ ${f.body}<br><br>${f.note}</div>`);
+  PALETTES.forEach((pal) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.innerHTML = `
+      <div class="phone" style="--display:${f.display};--body:${f.bodyF};--r:${f.r};--r-ui:${f.rui || "999px"};--dw:${f.dw};--track:${f.track};--title:${f.title};--lead:${f.lead || "1.05"};--case:${f.uc ? "uppercase" : "none"}">
+        <header><p>Tuesday 8 September</p><h1>Today's quest</h1></header>
+        <div class="seg"><span class="on">Any</span><span>Today</span><span>Lifetime</span></div>
+        <article class="card">
+          <div class="kicker"><span>Nature</span><span>Today</span></div>
+          <div><h2>Watch a sunset from start to finish</h2><p>Find west, sit down twenty minutes before, and stay until the last color is gone. Phone stays in your pocket.</p></div>
+          <ul class="meta"><li>Minutes</li><li>Free</li><li>Outdoors</li></ul>
+        </article>
+        <div class="actions"><button class="ghost">Skip</button><button class="sec">Save for later</button><button class="pri">Done</button></div>
+        <nav class="tabs"><span class="on">${ICON.dice}Today</span><span>${ICON.grid}Explore</span><span>${ICON.mark}My list</span></nav>
+      </div>
+      <div class="caption"><span>T${f.id} × C${pal.id}</span><div class="swatches"></div></div>`;
+    const phone = cell.querySelector(".phone");
+    const sw = cell.querySelector(".swatches");
+    const entry = { phone, pal, i: 0, buttons: [] };
+    pal.p.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.style.setProperty("--a", p[0]); b.style.setProperty("--b", p[3]);
+      b.title = `Palette ${"ABC"[i]}`;
+      b.onclick = () => set(entry, i);
+      sw.appendChild(b); entry.buttons.push(b);
+    });
+    cells.push(entry);
+    m.appendChild(cell);
+    set(entry, 0);
+  });
+});
+
+function set(e, i) {
+  e.i = i;
+  const [bg, ink, muted, card, cardInk, accent, accentInk, surface] = e.pal.p[i];
+  const s = e.phone.style;
+  s.setProperty("--bg", bg); s.setProperty("--ink", ink); s.setProperty("--muted", muted);
+  s.setProperty("--card", card); s.setProperty("--card-ink", cardInk);
+  s.setProperty("--accent", accent); s.setProperty("--accent-ink", accentInk || bg); s.setProperty("--surface", surface || bg);
+  e.buttons.forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+}
+function cycleAll() { cells.forEach((e) => set(e, (e.i + 1) % e.pal.p.length)); }
+document.getElementById("cycle").onclick = cycleAll;
+addEventListener("keydown", (ev) => { if (ev.code === "Space" && ev.target === document.body) { ev.preventDefault(); cycleAll(); } });
+</script>
+</body>
+</html>

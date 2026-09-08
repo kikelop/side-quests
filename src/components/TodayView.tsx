@@ -59,7 +59,7 @@ export default function TodayView() {
           <p className="h-5 text-[13px] font-medium text-ink-2">
             {hydrated && new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
           </p>
-          <h1 className="font-display text-[28px] font-semibold leading-none">Today&apos;s quest</h1>
+          <h1 className="font-display text-[24px] font-semibold leading-none">Today&apos;s quest</h1>
         </div>
         {streak >= 2 && (
           <span className="rounded-full bg-done/10 px-3 py-1 text-[13px] font-semibold text-done">{streak} day streak</span>

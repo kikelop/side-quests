@@ -1,17 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import { Onest, Unbounded } from "next/font/google";
 import "./globals.css";
 import { QuestsProvider } from "@/lib/QuestsProvider";
 import TabBar from "@/components/TabBar";
 import Toasts from "@/components/Toasts";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-  display: "swap",
-  weight: ["500", "600", "700"],
-});
+const onest = Onest({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600"] });
+const unbounded = Unbounded({ subsets: ["latin"], variable: "--font-display", display: "swap", weight: ["500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Side Quests",
@@ -25,12 +20,12 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#eef0f3",
+  themeColor: "#fff7ec",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
+    <html lang="en" className={`${onest.variable} ${unbounded.variable}`}>
       <body>
         <QuestsProvider>
           <div className="shell">{children}</div>
